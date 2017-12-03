@@ -4,6 +4,7 @@ TCIR is a dataset "Tropical Cyclone for Image Recognition Dataset", collecting t
 
 # Data Size
 Including three sets of tropical cyclones from three different region.
+
 | Region | Cyclone | Frame |
 | ------ | ------ | ------ |
 | West Pacific | 320 | 17104 |
