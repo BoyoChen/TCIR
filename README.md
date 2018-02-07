@@ -1,5 +1,5 @@
 # TCIR
-TCIR is a dataset "Tropical Cyclone for Image Recognition Dataset", collecting tropical cyclone data from geosynchronous satellite including 4 channels.
+TCIR is a dataset "Tropical Cyclone for Image Regression Dataset", collecting tropical cyclone data from geosynchronous satellite including 4 channels.
 ![sample](sample_figures/sample_fig.png)
 
 # Data Size
@@ -7,10 +7,10 @@ Including three sets of tropical cyclones from three different region.
 
 | Region | Cyclone | Frame |
 | ------ | ------ | ------ |
-| West Pacific | 320 | 17104 |
+| West Pacific | 379 | 20060 |
 | East Pacific | 247 | 14149 |
 | Atlantic | 235 | 13707 |
-| Total | 802 | 44960 |
+| Total | 861 | 47916 |
 
 # Frames
 - 4 channel : 
@@ -29,7 +29,7 @@ Including three sets of tropical cyclones from three different region.
     - Tropical cyclone’s center is placed in the middle of the vector.
     - A radius of 7 degrees in both Latitude and longitude.
     - 201 x 201 data point
-    - distance between two data point = 14 degree/200 = about 7 Km
+    - distance between two data point = 14 degree/200 = about 4 Km
     - There exist some missing value, I filled them by nan. These values should be handle in some way such as:
         - Interpolation.
         - Replace by zeros.
@@ -37,7 +37,7 @@ Including three sets of tropical cyclones from three different region.
 
 # Labels
 - According to the definition, the intensity of tropical cyclone is defined by the wind velocity on the cyclone eye. Such velocity is usually the fastest within the whole cyclone. Therefore, we can also use the maximum velocity within a cyclone to estimate its intensity. 
-- For every frame, we provide best track of maximum velocity (Vmax) calculated by [Digital Dvorak](http://journals.ametsoc.org/doi/abs/10.1175/BAMS-87-9-1195), which is refined after the lifecycle of cyclone (comparing to those realtime prediction)
+- For every frame, we provide best track of maximum velocity (Vmax) calculated by [Digital Dvorak](http://journals.ametsoc.org/doi/abs/10.1175/BAMS-87-9-1195), which is refined after the lifecycle of cyclones (comparing to those realtime prediction)
     
 # Usage
 We provide a HDF5 format file for people to easily access the whole orgnized dataset.
@@ -59,20 +59,4 @@ data_info = pd.read_hdf("TCIR.h5", key="info", mode='r')
 with h5py.File('TCIR.h5', 'r') as hf:
     data_matrix = hf['matrix'][:]
 ```
-
-Since the size of original dataset is about 7.3 GB while size of HDF5 file is 28 GB, we provide the original data and also a script for parsing them.
-1. Get the original data [TC_data]().
-2. Extract [0211_WPACout.tar.gz, 0212_EPACout.tar.gz, 0213_ATLNout.tar.gz] into folder [0211_WPACout, 0212_EPACout, 0213_ATLNout].
-3. Run the script "data_parsing.py" written in python2:
-```sh
-usage: data_parsing.py [-h] path output
-
-positional arguments:
-  path        path to the folder 'TC_data'
-  output      path to the output hdf5 file
-
-optional arguments:
-  -h, --help  show this help message and exit
-```
-
 
