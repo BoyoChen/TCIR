@@ -5,14 +5,17 @@ To let people to conveniently start investigating this kind of tasks, Tropical C
 ![sample](sample_figures/sample_fig.png)
 
 # Data Size
-Including three sets of tropical cyclones from three different region.
+Including several sets of tropical cyclones from different regions.
 
 | Region | #TCs | #Frames |
 | ------ | ------ | ------ |
-| West Pacific | 379 | 20060 |
-| East Pacific | 247 | 14149 |
 | Atlantic | 235 | 13707 |
-| Total | 861 | 47916 |
+| West Pacific | 379 | 20061 |
+| East Pacific | 247 | 13615 |
+| Central Pacific | 19 | 1479 |
+| Indian Ocean | 75 | 3205 |
+| Southern Hemisphere | 330 | 18434 |
+| Total | 1285 | 70501 |
 
 # Frames
 - 4 channel : 
@@ -60,8 +63,11 @@ In addition to the intensity, we also provided another remarkable TC structure p
 We provide a HDF5 format file for people to easily access the whole orgnized dataset.
 - Dependencies: Python, pandas, numpy, HDF5 packages(such as "h5py").
 - Link: [Here](http://140.112.90.194:1126/TCIR.h5.tar.gz)
+    - Six region are divided into 2 file:
+        - ATLN/EPAC/WPAC
+        - CPAC/IO/SH (Notice that TCs from SH, comparing to other regions, rotate in diffrent direction.)
 - There are 2 keys in the HDF5:
-    - matrix: 47916 x 201 x 201 x 4 HDF5 dataset. One can load this with python numpy.
+    - matrix: N x 201 x 201 x 4 HDF5 dataset. One can load this with python numpy.
     - info: HDF5 group. One can load this with python package pandas.
 
 Example: Loading TCIR dataset with python.
@@ -70,11 +76,13 @@ import numpy as np
 import pandas as pd
 import h5py
 
-# load "info" as pandas dataframe
-data_info = pd.read_hdf("TCIR.h5", key="info", mode='r')
+data_path = "TCIR.h5"
 
-# load "matrix" as numpy ndarray, this could take about 5 min
-with h5py.File('TCIR.h5', 'r') as hf:
+# load "info" as pandas dataframe
+data_info = pd.read_hdf(data_path, key="info", mode='r')
+
+# load "matrix" as numpy ndarray, this could take longer times
+with h5py.File(data_path, 'r') as hf:
     data_matrix = hf['matrix'][:]
 ```
 
